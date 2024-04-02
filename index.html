@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expenses-app</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+</head>
+<body>    
+<div class="wrapper">
+    <h1 class="title">Учет расходов</h1>
+    <div class="rub">
+    <input class="js-inp inp" type="number">
+    </div>
+    <button id="btn-disabled" class="js-btn btn">Добавить</button>
+   <br> <select class="category" name="category">
+        <option value="" hidden>выберите категорию трат</option>
+        <option value="cafe">кафе и рестораны</option>
+        <option value="transport">транспорт</option>
+        <option value="health">здоровье</option>
+        <option value="fun">развлечение</option>
+      </select>
+    <p class="category_validation">0</p>
+</div>
+
+
+<div class="indicators">
+<div class="row">
+    <h2 class="limit-title"> Лимит: <span class="js-limit">0</span></h2>
+    <button class="icon-img js-icon">
+    </button>
+    <div class="js-popup popup">
+    <div class="popup-content">
+        <div class="popup-wrapper">
+        <h3 class="popup-title">Новый лимит</h3>
+        <input type="number" class="popup-input">
+        <button class="js-burger-btn burger-btn">
+            <span class="line-btn1"></span>
+            <span class="line-btn2"></span>
+        </button>
+        <button class="popup-btn js-popup-btn" >Задать лимит</button>
+        </div>
+    </div>
+    </div>
+    <h2 class="history-title">История:</h2>
+
+</div>
+<div class="row">
+    <h2 class="total-title">Всего:<span class="js-total"></span></h2>
+    <div class="js-history history"></div>
+</div>
+</div>
+
+<h2 class="status-title">Статус: <span class="js-status"></span></h2>
+<button class="reset-btn js-reset-btn">сбросить расходы</button>
+
+<script src="index.js"></script>
+</body>
+</html>
