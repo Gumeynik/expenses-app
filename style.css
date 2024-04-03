@@ -1,3 +1,4 @@
+
 .title{
     margin-top: 50px;
     margin-bottom: 40px;
@@ -40,7 +41,7 @@
 }
 .category_validation{
     margin-left: 652px;
-    color: rgb(255, 255, 255);
+    opacity: 0;
 }
 .indicators{
     margin-top: 40px;

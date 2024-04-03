@@ -1,8 +1,8 @@
 const expenses = [];
 let LIMIT = 10000;
-const currency = 'руб.';
-const status_in_limit = 'всё хорошо';
-const status_out_of_limit = 'всё плохо';
+const СURRENCY = 'руб.';
+const STATUS_IN_LIMIT = 'все хорошо';
+const STATUS_OUT_OF_LIMIT = 'всё плохо';
 
 const inputNode = document.querySelector('.js-inp');
 const btnNode = document.querySelector('.js-btn');
@@ -17,47 +17,49 @@ const btnClosePopupNode = document.querySelector('.js-burger-btn');
 const popupInputNode = document.querySelector('.popup-input');
 const btnPopupInputNode = document.querySelector('.js-popup-btn');
 const categoryNode = document.querySelector('.category');
-const validation = document.querySelector('.category_validation');
+const warningMessage = document.querySelector('.category_validation');
 
 
 init(expenses);
 
 
 btnNode.addEventListener('click', function () {
-   const expense = getExpenseFromUser();
-
-   if (!expense) {
-    validation.setAttribute("style", "color: red;")
-    validation.innerText = `Запишите расходы`;
-    return;
-   }
-    else {
-        validation.setAttribute("style", "color: white;")
-   }
-   if (categoryNode.value === ''){
-    validation.setAttribute("style", "color: red;")
-    validation.innerText = `Выберите категорию`;
-    return;
-   }
-   else {
-    validation.setAttribute("style", "color: white;")
-}
-if (expense <= 0 ) {
-    validation.setAttribute("style", "color: red;")
-    validation.innerText = `Введите корректное число `;
-    return;
-   }
-   trackExpense(expense);
-   render(expenses);
+    const expense = getExpenseFromUser();
+    if (validation(expense)) {
+        trackExpense(expense);
+        render(expenses);
+    }
 });
+btnPopupInputNode.addEventListener('click', createNewLimit);
+btnClosePopupNode.addEventListener('click', closePopup);
+btnPopupNode.addEventListener('click', popupOpen);
+btnResetNode.addEventListener('click',resetExpenses);
 
+
+function validation(expense) {
+    if ((!expense) || expense <= 0) {
+        warningMessage.setAttribute("style", "color: red; opacity: 1")
+        warningMessage.innerText = `Введите корректное число`;
+        return false;
+    } else {
+        warningMessage.setAttribute("style", "color: white; opacity: 0")
+    }
+
+    if (categoryNode.value === ''){
+        warningMessage.setAttribute("style", "color: red; opacity: 1")
+        warningMessage.innerText = `Выберите категорию`;
+        return false;
+    } else {
+        warningMessage.setAttribute("style", "color: white; opacity: 0")
+    }
+    return true;
+}
 function init() {
-    limitNode.innerText = `${LIMIT} ${currency}`;
-    statusNode.innerText = status_in_limit;
-    totalNode.innerText = ` ${calculateExpanses(expenses)}  ${currency}`;
+    limitNode.innerText = `${LIMIT} ${СURRENCY}`;
+    statusNode.innerText = STATUS_IN_LIMIT;
+    totalNode.innerText = ` ${calculateExpanses(expenses)}  ${СURRENCY}`;
 };
 
-localStorage.setItem('limit', popupInputNode.value)
 
 function trackExpense(expense) {
     const category = categoryNode.options[categoryNode.selectedIndex].text;
@@ -68,9 +70,6 @@ function getExpenseFromUser() {
     if (inputNode.value === '' ) {
         return null;
     }
-    // if (categoryNode.value === '') {
-    //     return null;
-    // }
     const expense = parseInt(inputNode.value);
 
     clearInput();
@@ -96,10 +95,10 @@ function calculateExpanses(expenses) {
 
 function render(expenses) {
     const sum = calculateExpanses(expenses);
+
     init();  
     renderSum(sum);
     renderHistory(expenses);
- 
     renderStatus(sum);
 }
 
@@ -107,42 +106,43 @@ function renderHistory(expenses) {
     let expensesListHTML = '';
 
     expenses.forEach(expense => {
-        expensesListHTML += `<li>${expense.amount} ${currency} - ${expense.category}</li>`;
+        expensesListHTML += `<li>${expense.amount} ${СURRENCY} - ${expense.category}</li>`;
     });
 
     historyNode.innerHTML = `<ol class='history-list'>${expensesListHTML}</ol> `;
 };
 
 function renderSum(sum) {
-    totalNode.innerText = `${sum} ${currency}`;
+    totalNode.innerText = `${sum} ${СURRENCY}`;
 }
 
 function renderStatus(sum) {
     if (LIMIT >= sum) {
-        statusNode.innerText = `${status_in_limit}`;
+        statusNode.innerText = `${STATUS_IN_LIMIT}`;
         statusNode.setAttribute("style", "color: green;")
     } else {
-        statusNode.innerText = `${status_out_of_limit} (-${sum - LIMIT})`;
+        statusNode.innerText = `${STATUS_OUT_OF_LIMIT} (-${sum - LIMIT})`;
         statusNode.setAttribute("style", "color: red;")
     }
 };
 
 
-btnResetNode.addEventListener('click', function () {
+
+function resetExpenses() {
     expenses.length = 0;
     
     render(expenses);
- });
+}
 
- btnPopupNode.addEventListener('click', function () {
+function popupOpen() {
     popupNode.classList.add('popup-open');
- });
+}
 
- btnClosePopupNode.addEventListener('click', function () {
+function closePopup() {
     popupNode.classList.remove('popup-open');
- });
+}
 
- btnPopupInputNode.addEventListener('click', function () {
+function createNewLimit() {
     if (popupInputNode.value < 0) {
         return;
     }
@@ -150,45 +150,4 @@ btnResetNode.addEventListener('click', function () {
     popupNode.classList.remove('popup-open');
     render(expenses); 
     clearInput();
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const POPUP_OPENED_CLASSNAME = 'popup_open';
-// const BODY_FIXED_CLASSNAME = 'body_fixed';
-
-// const bodyNode = document.querySelector('body');
-// const popupNode = document.querySelector('.js-popup');
-// const btnLimitNode = document.querySelector('.js-icon')
-// const popupContentNode = document.querySelector('.js-popup-content')
-
-// btnLimitNode.addEventListener('click', togglePopup);
-// btnCloseNode.addEventListener('click', togglePopup);
-
-// popupNode.addEventListener('click', (event) => {
-//     const isClickOutsideContent = !event.composedPath().includes(popupContentNode)
-
-//     if (isClickOutsideContent) {
-//         togglePopup();
-//     }
-// })
-
-// function togglePopup() {
-//     popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
-//     bodyNode.classList.toggle(BODY_FIXED_CLASSNAME);
-// }
+}
