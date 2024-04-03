@@ -143,6 +143,9 @@ btnResetNode.addEventListener('click', function () {
  });
 
  btnPopupInputNode.addEventListener('click', function () {
+    if (popupInputNode.value < 0) {
+        return;
+    }
     LIMIT = popupInputNode.value;
     popupNode.classList.remove('popup-open');
     render(expenses); 
