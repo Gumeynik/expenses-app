@@ -42,6 +42,11 @@ btnNode.addEventListener('click', function () {
    else {
     validation.setAttribute("style", "color: white;")
 }
+if (expense <= 0 ) {
+    validation.setAttribute("style", "color: red;")
+    validation.innerText = `Введите корректное число `;
+    return;
+   }
    trackExpense(expense);
    render(expenses);
 });
