@@ -23,18 +23,20 @@ const warningMessage = document.querySelector('.category_validation');
 init(expenses);
 
 
-btnNode.addEventListener('click', function () {
-    const expense = getExpenseFromUser();
-    if (validation(expense)) {
-        trackExpense(expense);
-        render(expenses);
-    }
-});
+btnNode.addEventListener('click', addExpense);
 btnPopupInputNode.addEventListener('click', createNewLimit);
 btnClosePopupNode.addEventListener('click', closePopup);
 btnPopupNode.addEventListener('click', popupOpen);
 btnResetNode.addEventListener('click',resetExpenses);
 
+
+function addExpense() {
+    const expense = getExpenseFromUser();
+    if (validation(expense)) {
+        trackExpense(expense);
+        render(expenses);
+    }
+}
 
 function validation(expense) {
     if ((!expense) || expense <= 0) {
