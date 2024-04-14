@@ -19,13 +19,9 @@ const btnPopupInputNode = document.querySelector('.js-popup-btn');
 const categoryNode = document.querySelector('.category');
 const warningMessage = document.querySelector('.category_validation');
 
-init(expenses);
 
-btnNode.addEventListener('click', addExpense);
-btnPopupInputNode.addEventListener('click', createNewLimit);
-btnClosePopupNode.addEventListener('click', closePopup);
-btnPopupNode.addEventListener('click', popupOpen);
-btnResetNode.addEventListener('click', resetExpenses);
+
+
 
 const addExpense = () => {
     const expense = getExpenseFromUser();
@@ -147,3 +143,10 @@ const createNewLimit = () => {
     render(expenses);
     clearInput();
 }
+
+init(expenses);
+btnNode.addEventListener('click', addExpense);
+btnPopupInputNode.addEventListener('click', createNewLimit);
+btnClosePopupNode.addEventListener('click', closePopup);
+btnPopupNode.addEventListener('click', popupOpen);
+btnResetNode.addEventListener('click', resetExpenses);
