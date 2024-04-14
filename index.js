@@ -19,18 +19,15 @@ const btnPopupInputNode = document.querySelector('.js-popup-btn');
 const categoryNode = document.querySelector('.category');
 const warningMessage = document.querySelector('.category_validation');
 
-
 init(expenses);
-
 
 btnNode.addEventListener('click', addExpense);
 btnPopupInputNode.addEventListener('click', createNewLimit);
 btnClosePopupNode.addEventListener('click', closePopup);
 btnPopupNode.addEventListener('click', popupOpen);
-btnResetNode.addEventListener('click',resetExpenses);
+btnResetNode.addEventListener('click', resetExpenses);
 
-
-function addExpense() {
+const addExpense = () => {
     const expense = getExpenseFromUser();
     if (validation(expense)) {
         trackExpense(expense);
@@ -38,7 +35,7 @@ function addExpense() {
     }
 }
 
-function validation(expense) {
+const validation = (expense) => {
     if ((!expense) || expense <= 0) {
         warningMessage.setAttribute("style", "color: red; opacity: 1")
         warningMessage.innerText = `Введите корректное число`;
@@ -47,7 +44,7 @@ function validation(expense) {
         warningMessage.setAttribute("style", "color: white; opacity: 0")
     }
 
-    if (categoryNode.value === ''){
+    if (categoryNode.value === '') {
         warningMessage.setAttribute("style", "color: red; opacity: 1")
         warningMessage.innerText = `Выберите категорию`;
         return false;
@@ -56,20 +53,20 @@ function validation(expense) {
     }
     return true;
 }
-function init() {
+
+const init = () => {
     limitNode.innerText = `${LIMIT} ${СURRENCY}`;
     statusNode.innerText = STATUS_IN_LIMIT;
     totalNode.innerText = ` ${calculateExpanses(expenses)}  ${СURRENCY}`;
 };
 
-
-function trackExpense(expense) {
+const trackExpense = (expense) => {
     const category = categoryNode.options[categoryNode.selectedIndex].text;
     expenses.push({ amount: expense, category: category });
 };
 
-function getExpenseFromUser() {
-    if (inputNode.value === '' ) {
+const getExpenseFromUser = () => {
+    if (inputNode.value === '') {
         return null;
     }
     const expense = parseInt(inputNode.value);
@@ -79,13 +76,12 @@ function getExpenseFromUser() {
     return expense;
 };
 
-function clearInput() {
+const clearInput = () => {
     inputNode.value = '';
     popupInputNode.value = '';
-
 };
 
-function calculateExpanses(expenses) {
+const calculateExpanses = (expenses) => {
     let sum = 0;
 
     expenses.forEach(element => {
@@ -95,16 +91,16 @@ function calculateExpanses(expenses) {
     return sum;
 };
 
-function render(expenses) {
+const render = (expenses) => {
     const sum = calculateExpanses(expenses);
 
-    init();  
+    init();
     renderSum(sum);
     renderHistory(expenses);
     renderStatus(sum);
 }
 
-function renderHistory(expenses) {
+const renderHistory = (expenses) => {
     let expensesListHTML = '';
 
     expenses.forEach(expense => {
@@ -114,11 +110,11 @@ function renderHistory(expenses) {
     historyNode.innerHTML = `<ol class='history-list'>${expensesListHTML}</ol> `;
 };
 
-function renderSum(sum) {
+const renderSum = (sum) => {
     totalNode.innerText = `${sum} ${СURRENCY}`;
 }
 
-function renderStatus(sum) {
+const renderStatus = (sum) => {
     if (LIMIT >= sum) {
         statusNode.innerText = `${STATUS_IN_LIMIT}`;
         statusNode.setAttribute("style", "color: green;")
@@ -128,28 +124,26 @@ function renderStatus(sum) {
     }
 };
 
-
-
-function resetExpenses() {
+const resetExpenses = () => {
     expenses.length = 0;
-    
+
     render(expenses);
 }
 
-function popupOpen() {
+const popupOpen = () => {
     popupNode.classList.add('popup-open');
 }
 
-function closePopup() {
+const closePopup = () => {
     popupNode.classList.remove('popup-open');
 }
 
-function createNewLimit() {
+const createNewLimit = () => {
     if (popupInputNode.value < 0) {
         return;
     }
     LIMIT = popupInputNode.value;
     popupNode.classList.remove('popup-open');
-    render(expenses); 
+    render(expenses);
     clearInput();
 }
